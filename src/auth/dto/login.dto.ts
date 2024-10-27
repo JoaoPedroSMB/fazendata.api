@@ -9,6 +9,5 @@ export class LoginDto {
   password: string;
 }
 export class LoginResponseDto {
-    access_token: string;
-  }
-  
+  access_token: string;
+}

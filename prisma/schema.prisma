@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,8 +9,234 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
+  id                       Int          @id @default(autoincrement())
+  email                    String       @unique
+  password                 String
+  createdAt                DateTime     @default(now())
+  TipoUsuario              TipoUsuario? @relation(fields: [tipoUsuarioIdTipoUsuario], references: [IdTipoUsuario])
+  tipoUsuarioIdTipoUsuario Int?
+  Pessoa                   Pessoa[]
+}
+
+model Gado {
+  IdGado              Int      @id @default(autoincrement())
+  IdTipoGado          Int
+  IdFazenda           Int
+  NumeroIdentificacao Int
+  DataNascimento      DateTime
+  IdSexo              Int
+  PesoNascimentoEmKg  Int
+  PesoAtual           Decimal  @db.Decimal(5, 2)
+  IdRaca              Int
+
+  TipoGado     TipoGado       @relation(fields: [IdTipoGado], references: [IdTipoGado])
+  Fazenda      Fazenda        @relation(fields: [IdFazenda], references: [IdFazenda])
+  Sexo         Sexo           @relation(fields: [IdSexo], references: [IdSexo])
+  Raca         Raca           @relation(fields: [IdRaca], references: [IdRaca])
+  GadoFemea    GadoFemea?
+  GadoMacho    GadoMacho?
+  Projenitores Projenitores[]
+  AnimalVacina AnimalVacina[]
+}
+
+model GadoMacho {
+  IdGadoMacho Int  @id
+  Gado        Gado @relation(fields: [IdGadoMacho], references: [IdGado])
+
+  GadoCorte      GadoCorte?
+  GadoReprodutor GadoReprodutor?
+}
+
+model GadoFemea {
+  IdGadoFemea     Int @id
+  IdStatusPrenhez Int
+
+  Gado          Gado          @relation(fields: [IdGadoFemea], references: [IdGado])
+  StatusPrenhez StatusPrenhez @relation(fields: [IdStatusPrenhez], references: [IdStatusPrenhez])
+  GadoLeiteiro  GadoLeiteiro?
+}
+
+model TipoGado {
+  IdTipoGado Int    @id @default(autoincrement())
+  TipoDoGado String @db.VarChar(30)
+
+  Gado Gado[]
+}
+
+model GadoReprodutor {
+  IdGadoMacho           Int     @id
+  VolumeSemenDisponivel String
+  Motilidade            Decimal @db.Decimal(5, 2)
+  Concentracao          Int
+
+  GadoMacho GadoMacho @relation(fields: [IdGadoMacho], references: [IdGadoMacho])
+}
+
+model GadoLeiteiro {
+  IdGadoFemea                 Int      @id
+  UltimaInseminacao           DateTime
+  QuantidadePartos            Int
+  ProducaoLeiteDiariaEmLitros Decimal  @db.Decimal(4, 2)
+
+  GadoFemea GadoFemea @relation(fields: [IdGadoFemea], references: [IdGadoFemea])
+}
+
+model GadoCorte {
+  IdGadoMacho        Int       @id
+  DataAbate          DateTime?
+  IdadePrevistaAbate Int
+  GanhoDePesoMensal  Float
+
+  GadoMacho GadoMacho   @relation(fields: [IdGadoMacho], references: [IdGadoMacho])
+  Alimentao Alimentao[]
+}
+
+model Raca {
+  IdRaca Int    @id @default(autoincrement())
+  Nome   String @db.VarChar
+
+  Gado         Gado[]
+  Projenitores Projenitores[]
+}
+
+model Sexo {
+  IdSexo    Int    @id @default(autoincrement())
+  Descricao String @db.Char(10)
+
+  Gado         Gado[]
+  Pessoa       Pessoa[]
+  Projenitores Projenitores[]
+}
+
+model StatusPrenhez {
+  IdStatusPrenhez Int    @id @default(autoincrement())
+  Descricao       String @db.Char(13)
+
+  GadoFemea GadoFemea[]
+}
+
+model TipoLogradouro {
+  IdTipoLogradouro Int    @id @default(autoincrement())
+  Descricao        String @db.VarChar(20)
+
+  Endereco Endereco[]
+}
+
+model UnidadeFederativa {
+  UF         String @id @db.Char(2)
+  NomeEstado String @db.VarChar(18)
+
+  Endereco Endereco[]
+}
+
+model Endereco {
+  IdEndereco       Int     @id @default(autoincrement())
+  Logradouro       String  @db.VarChar(100)
+  Complemento      String? @db.VarChar(20)
+  Bairro           String  @db.VarChar(50)
+  CEP              Int
+  Numero           Int
+  Cidade           String  @db.VarChar(30)
+  IdTipoLogradouro Int
+  UF               String  @db.Char(2)
+
+  TipoLogradouro    TipoLogradouro    @relation(fields: [IdTipoLogradouro], references: [IdTipoLogradouro])
+  UnidadeFederativa UnidadeFederativa @relation(fields: [UF], references: [UF])
+  Pessoa            Pessoa[]
+  Fazenda           Fazenda[]
+}
+
+model TipoUsuario {
+  IdTipoUsuario Int    @id @default(autoincrement())
+  Descricao     String @db.VarChar(30)
+
+  Usuario Usuario[]
+  User    User[]
+}
+
+model Vacinas {
+  IdVacina  Int    @id @default(autoincrement())
+  Descricao String @db.VarChar(50)
+
+  AnimalVacina AnimalVacina[]
+}
+
+model Fazenda {
+  IdFazenda  Int @id @default(autoincrement())
+  IdEndereco Int
+
+  Endereco      Endereco        @relation(fields: [IdEndereco], references: [IdEndereco])
+  Gado          Gado[]
+  FazendaPessoa FazendaPessoa[]
+}
+
+model Alimentao {
+  IdGadoMacho           Int
+  DataInicioAlimentacao DateTime
+  DataFimAlimentacao    DateTime?
+  QuantidadeRacaoDiaria Float
+  Suplementacao         String    @db.VarChar(100)
+  TipoRacao             String    @db.VarChar
+
+  GadoCorte GadoCorte @relation(fields: [IdGadoMacho], references: [IdGadoMacho])
+
+  @@id([IdGadoMacho, DataInicioAlimentacao])
+}
+
+model Projenitores {
+  IdGado     Int
+  Sequencial Int
+  IdSexo     Int
+  Nome       String @db.VarChar(40)
+  IdRaca     Int
+
+  Gado Gado @relation(fields: [IdGado], references: [IdGado])
+  Sexo Sexo @relation(fields: [IdSexo], references: [IdSexo])
+  Raca Raca @relation(fields: [IdRaca], references: [IdRaca])
+
+  @@id([IdGado, Sequencial, IdSexo])
+}
+
+model AnimalVacina {
+  IdGado        Int
+  IdVacina      Int
+  DataAplicacao DateTime
+  DataProxima   DateTime?
+
+  Gado    Gado    @relation(fields: [IdGado], references: [IdGado])
+  Vacinas Vacinas @relation(fields: [IdVacina], references: [IdVacina])
+
+  @@id([IdGado, IdVacina])
+}
+
+model FazendaPessoa {
+  IdPessoa  Int
+  IdFazenda Int
+
+  Pessoa  Pessoa  @relation(fields: [IdPessoa], references: [IdPessoa])
+  Fazenda Fazenda @relation(fields: [IdFazenda], references: [IdFazenda])
+
+  @@id([IdPessoa, IdFazenda])
+}
+
+model Pessoa {
+  IdPessoa   Int    @id @default(autoincrement())
+  Nome       String @db.VarChar(100)
+  IdEndereco Int
+  IdSexo     Int
+
+  Endereco      Endereco        @relation(fields: [IdEndereco], references: [IdEndereco])
+  Sexo          Sexo            @relation(fields: [IdSexo], references: [IdSexo])
+  FazendaPessoa FazendaPessoa[]
+  Usuario       Usuario?
+  User          User?           @relation(fields: [userId], references: [id])
+  userId        Int?
+}
+
+model Usuario {
+  IdPessoa      Int @id
+  IdTipoUsuario Int
+
+  Pessoa      Pessoa      @relation(fields: [IdPessoa], references: [IdPessoa])
+  TipoUsuario TipoUsuario @relation(fields: [IdTipoUsuario], references: [IdTipoUsuario])
 }
