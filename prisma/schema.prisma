@@ -8,35 +8,35 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model User {
-  id                       Int          @id @default(autoincrement())
-  email                    String       @unique
-  password                 String
-  createdAt                DateTime     @default(now())
-  TipoUsuario              TipoUsuario? @relation(fields: [tipoUsuarioIdTipoUsuario], references: [IdTipoUsuario])
-  tipoUsuarioIdTipoUsuario Int?
-  Pessoa                   Pessoa[]
-}
+// model User {
+//   id                       Int          @id @default(autoincrement())
+//   email                    String       @unique
+//   password                 String
+//   createdAt                DateTime     @default(now())
+//   TipoUsuario              TipoUsuario? @relation(fields: [tipoUsuarioIdTipoUsuario], references: [IdTipoUsuario])
+//   tipoUsuarioIdTipoUsuario Int?
+//   Pessoa                   Pessoa[]
+// }
 
 model Gado {
-  IdGado              Int      @id @default(autoincrement())
+  IdGado              Int            @id @default(autoincrement())
   IdTipoGado          Int
   IdFazenda           Int
   NumeroIdentificacao Int
   DataNascimento      DateTime
   IdSexo              Int
   PesoNascimentoEmKg  Int
-  PesoAtual           Decimal  @db.Decimal(5, 2)
+  PesoAtual           Decimal        @db.Decimal(5, 2)
   IdRaca              Int
-
-  TipoGado     TipoGado       @relation(fields: [IdTipoGado], references: [IdTipoGado])
-  Fazenda      Fazenda        @relation(fields: [IdFazenda], references: [IdFazenda])
-  Sexo         Sexo           @relation(fields: [IdSexo], references: [IdSexo])
-  Raca         Raca           @relation(fields: [IdRaca], references: [IdRaca])
-  GadoFemea    GadoFemea?
-  GadoMacho    GadoMacho?
-  Projenitores Projenitores[]
-  AnimalVacina AnimalVacina[]
+  Nome                String         @db.VarChar(40)
+  TipoGado            TipoGado       @relation(fields: [IdTipoGado], references: [IdTipoGado])
+  Fazenda             Fazenda        @relation(fields: [IdFazenda], references: [IdFazenda])
+  Sexo                Sexo           @relation(fields: [IdSexo], references: [IdSexo])
+  Raca                Raca           @relation(fields: [IdRaca], references: [IdRaca])
+  GadoFemea           GadoFemea?
+  GadoMacho           GadoMacho?
+  Projenitores        Projenitores[]
+  AnimalVacina        AnimalVacina[]
 }
 
 model GadoMacho {
@@ -151,7 +151,6 @@ model TipoUsuario {
   Descricao     String @db.VarChar(30)
 
   Usuario Usuario[]
-  User    User[]
 }
 
 model Vacinas {
@@ -162,9 +161,9 @@ model Vacinas {
 }
 
 model Fazenda {
-  IdFazenda  Int @id @default(autoincrement())
-  IdEndereco Int
-
+  IdFazenda     Int             @id @default(autoincrement())
+  IdEndereco    Int
+  Nome          String          @db.VarChar(40)
   Endereco      Endereco        @relation(fields: [IdEndereco], references: [IdEndereco])
   Gado          Gado[]
   FazendaPessoa FazendaPessoa[]
@@ -228,14 +227,16 @@ model Pessoa {
   Endereco      Endereco        @relation(fields: [IdEndereco], references: [IdEndereco])
   Sexo          Sexo            @relation(fields: [IdSexo], references: [IdSexo])
   FazendaPessoa FazendaPessoa[]
-  Usuario       Usuario?
-  User          User?           @relation(fields: [userId], references: [id])
-  userId        Int?
+
+  Usuario Usuario?
 }
 
 model Usuario {
-  IdPessoa      Int @id
+  IdPessoa      Int      @id
   IdTipoUsuario Int
+  email         String   @unique
+  password      String
+  createdAt     DateTime @default(now())
 
   Pessoa      Pessoa      @relation(fields: [IdPessoa], references: [IdPessoa])
   TipoUsuario TipoUsuario @relation(fields: [IdTipoUsuario], references: [IdTipoUsuario])
