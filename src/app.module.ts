@@ -2,11 +2,17 @@ import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as bcryptjs from 'bcryptjs';
 import { AuthModule } from './auth/auth.module';
+import { FazendaModule } from './fazenda/fazenda.module';
 import { PrismaModule } from './shared/prisma/prisma.module';
 import { PrismaService } from './shared/prisma/prisma.service';
 
 @Module({
-  imports: [AuthModule, PrismaModule, ConfigModule.forRoot({ isGlobal: true })],
+  imports: [
+    AuthModule,
+    PrismaModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    FazendaModule,
+  ],
 })
 export class AppModule implements OnModuleInit {
   constructor(
