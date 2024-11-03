@@ -25,7 +25,7 @@
 cmake-build-debug/
 
 # Mongo Explorer plugin:
-.idea/**/mongoSettings.xml
+.idea/**/mongoSettings.xml\
 
 ## File-based project format:
 *.iws
@@ -398,3 +398,4 @@ Temporary Items
 dist
 .webpack
 .serverless/**/*.zip
+prisma/migrations/
