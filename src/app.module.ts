@@ -8,6 +8,7 @@ import { FazendaModule } from './fazenda/fazenda.module';
 import { GadoModule } from './gado/gado.module';
 import { PrismaModule } from './shared/prisma/prisma.module';
 import { PrismaService } from './shared/prisma/prisma.service';
+import { VacinaModule } from './vacina/vacina.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PrismaService } from './shared/prisma/prisma.service';
     ConfigModule.forRoot({ isGlobal: true }),
     GadoModule,
     FazendaModule,
+    VacinaModule,
   ],
   providers: [
     {

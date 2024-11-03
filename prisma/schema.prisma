@@ -153,8 +153,9 @@ model TipoUsuario {
   Usuario Usuario[]
 }
 
-model Vacinas {
+model Vacina {
   IdVacina  Int    @id @default(autoincrement())
+  Nome      String @db.VarChar(50)
   Descricao String @db.VarChar(50)
 
   AnimalVacina AnimalVacina[]
@@ -202,8 +203,8 @@ model AnimalVacina {
   DataAplicacao DateTime
   DataProxima   DateTime?
 
-  Gado    Gado    @relation(fields: [IdGado], references: [IdGado])
-  Vacinas Vacinas @relation(fields: [IdVacina], references: [IdVacina])
+  Gado    Gado   @relation(fields: [IdGado], references: [IdGado])
+  Vacinas Vacina @relation(fields: [IdVacina], references: [IdVacina])
 
   @@id([IdGado, IdVacina])
 }
