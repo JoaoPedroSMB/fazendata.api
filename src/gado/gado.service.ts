@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../shared/prisma/prisma.service';
 import { CreateGadoDto } from './dto/create-gado.dto';
+import { VacinarGadoDto } from './dto/vacinar-gado.dto';
 
 @Injectable()
 export class GadoService {
@@ -72,7 +73,7 @@ export class GadoService {
     switch (IdTipoGado) {
       case 1: // Gado leiteiro
         if (IdSexo !== 2) {
-          throw new BadRequestException('Gado Leiteiro deve ser feminino');
+          throw new BadRequestException('Gado Leiteiro deve ser fêmea');
         }
         const StatusPrenhez = await this.prisma.statusPrenhez.findUnique({
           where: { IdStatusPrenhez: createGadoDto.IdStatusPrenhez },
@@ -147,6 +148,35 @@ export class GadoService {
     return this.prisma.gado.findMany({
       where: {
         IdFazenda: fazendaId,
+      },
+    });
+  }
+
+  async vacinarGado(vacinarGadoDto: VacinarGadoDto) {
+    const { IdGado, IdVacina, DataAplicacao, DataProxima } = vacinarGadoDto;
+
+    const vacina = await this.prisma.vacina.findUnique({
+      where: { IdVacina },
+    });
+
+    if (!vacina) {
+      throw new BadRequestException(`Vacina com ID ${IdVacina} não existe.`);
+    }
+
+    const gado = await this.prisma.gado.findUnique({
+      where: { IdGado },
+    });
+
+    if (!gado) {
+      throw new BadRequestException(`Gado com ID ${IdGado} não existe.`);
+    }
+
+    return this.prisma.animalVacina.create({
+      data: {
+        IdGado: gado.IdGado,
+        IdVacina: vacina.IdVacina,
+        DataAplicacao,
+        DataProxima,
       },
     });
   }

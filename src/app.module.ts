@@ -3,10 +3,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import * as bcryptjs from 'bcryptjs';
 import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { FazendaModule } from './fazenda/fazenda.module';
+import { GadoModule } from './gado/gado.module';
 import { PrismaModule } from './shared/prisma/prisma.module';
 import { PrismaService } from './shared/prisma/prisma.service';
-import { GadoModule } from './gado/gado.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { VacinaModule } from './vacina/vacina.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     PrismaModule,
     ConfigModule.forRoot({ isGlobal: true }),
     GadoModule,
+    FazendaModule,
+    VacinaModule,
   ],
   providers: [
     {

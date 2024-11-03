@@ -21,13 +21,12 @@ export class AuthService {
         IdTipoUsuario: true,
       },
     });
-    if (usuario && await bcrypt.compare(password, usuario.password)) {
+    if (usuario && (await bcrypt.compare(password, usuario.password))) {
       const { password, ...result } = usuario;
       return result;
     }
     return null;
   }
-  
 
   async login(usuario: any): Promise<LoginResponseDto> {
     const payload = { email: usuario.email, sub: usuario.IdPessoa };
