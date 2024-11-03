@@ -1,12 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export enum TipoGado {
-  REPRODUTOR = 'REPRODUTOR',
-  LEITEIRO = 'LEITEIRO',
-  CORTE = 'CORTE',
-}
-
 export class CreateGadoDto {
   @IsInt()
   IdTipoGado: number;
