@@ -6,7 +6,7 @@ import { CreateFazendaDto } from './dto/create-fazenda.dto';
 export class FazendaService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createFazendaDto: CreateFazendaDto) {
-    const { IdEndereco, Nome, IdPessoa } = createFazendaDto;
+    const { IdEndereco, Nome, IdPessoa, IdDono } = createFazendaDto;
 
     if (!IdPessoa) {
       throw new BadRequestException(
@@ -20,10 +20,17 @@ export class FazendaService {
       );
     }
 
+    if (!IdDono) {
+      throw new BadRequestException(
+        `A pessoa com o ID ${createFazendaDto.IdEndereco} não existe.`,
+      );
+    }
+
     const fazendaData = await this.prisma.fazenda.create({
       data: {
         IdEndereco,
         Nome,
+        IdDono,
       },
     });
     await this.prisma.fazendaPessoa.create({

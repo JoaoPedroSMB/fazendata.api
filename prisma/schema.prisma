@@ -164,8 +164,10 @@ model Vacina {
 model Fazenda {
   IdFazenda     Int             @id @default(autoincrement())
   IdEndereco    Int
+  IdDono        Int
   Nome          String          @db.VarChar(40)
   Endereco      Endereco        @relation(fields: [IdEndereco], references: [IdEndereco])
+  Dono          Pessoa          @relation(fields: [IdDono], references: [IdPessoa])
   Gado          Gado[]
   FazendaPessoa FazendaPessoa[]
 }
@@ -230,6 +232,8 @@ model Pessoa {
   FazendaPessoa FazendaPessoa[]
 
   Usuario Usuario?
+
+  Fazenda Fazenda[]
 }
 
 model Usuario {
