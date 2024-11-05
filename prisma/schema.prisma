@@ -124,7 +124,7 @@ model TipoLogradouro {
 
 model UnidadeFederativa {
   UF         String @id @db.Char(2)
-  NomeEstado String @db.VarChar(18)
+  NomeEstado String @db.VarChar(20)
 
   Endereco Endereco[]
 }

@@ -9,6 +9,7 @@ import { GadoModule } from './gado/gado.module';
 import { PrismaModule } from './shared/prisma/prisma.module';
 import { PrismaService } from './shared/prisma/prisma.service';
 import { VacinaModule } from './vacina/vacina.module';
+import { EnderecoModule } from './endereco/endereco.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { VacinaModule } from './vacina/vacina.module';
     GadoModule,
     FazendaModule,
     VacinaModule,
+    EnderecoModule,
   ],
   providers: [
     {
