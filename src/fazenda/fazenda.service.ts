@@ -81,6 +81,9 @@ export class FazendaService {
           },
         },
       },
+      include: {
+        Dono: true,
+      },
     });
   }
 
