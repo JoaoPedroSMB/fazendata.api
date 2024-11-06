@@ -22,7 +22,8 @@ export class AuthService {
       },
     });
     if (usuario && (await bcrypt.compare(password, usuario.password))) {
-      const { password, ...result } = usuario;
+      delete usuario.password;
+      const result = usuario;
       return result;
     }
     return null;
@@ -30,7 +31,17 @@ export class AuthService {
 
   async login(usuario: any): Promise<LoginResponseDto> {
     const payload = { email: usuario.email, sub: usuario.IdPessoa };
+    const IdPessoa = usuario.IdPessoa;
+    const pessoa = await this.prisma.pessoa.findUnique({
+      where: { IdPessoa },
+      select: {
+        IdPessoa: true,
+        Nome: true,
+      },
+    });
     return {
+      Nome: pessoa.Nome,
+      IdPesoa: pessoa.IdPessoa,
       access_token: this.jwtService.sign(payload),
     };
   }

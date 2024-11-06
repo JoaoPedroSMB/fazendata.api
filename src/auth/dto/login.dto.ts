@@ -9,5 +9,7 @@ export class LoginDto {
   password: string;
 }
 export class LoginResponseDto {
+  IdPesoa: number;
+  Nome: string;
   access_token: string;
 }
