@@ -41,7 +41,7 @@ export class AuthService {
     });
     return {
       Nome: pessoa.Nome,
-      IdPesoa: pessoa.IdPessoa,
+      IdPessoa: pessoa.IdPessoa,
       access_token: this.jwtService.sign(payload),
     };
   }
