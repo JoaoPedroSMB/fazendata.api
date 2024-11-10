@@ -180,4 +180,63 @@ export class GadoService {
       },
     });
   }
+  async BuscarGadoPorId(gadoId: number) {
+    const gado = await this.prisma.gado.findUnique({
+      where: {
+        IdGado: gadoId,
+      },
+      select: {
+        IdTipoGado: true,
+      },
+    });
+  
+    if (!gado) {
+      throw new BadRequestException(`Gado com ID ${gadoId} não encontrado.`);
+    }
+  
+    let CamposAuxiliares: any = {};
+  
+    switch (gado.IdTipoGado) {
+      case 1: // Gado Leiteiro
+        CamposAuxiliares = {
+          GadoFemea: {
+            include: {
+              GadoLeiteiro: true,
+            },
+          },
+        };
+        break;
+  
+      case 2: // Gado de Corte
+        CamposAuxiliares = {
+          GadoMacho: {
+            include: {
+              GadoCorte: true,
+            },
+          },
+        };
+        break;
+  
+      case 3: // Gado Reprodutor
+        CamposAuxiliares = {
+          GadoMacho: {
+            include: {
+              GadoReprodutor: true,
+            },
+          },
+        };
+        break;
+  
+      default:
+        throw new BadRequestException('Tipo de gado inválido.');
+    }
+  
+    return this.prisma.gado.findUnique({
+      where: {
+        IdGado: gadoId,
+      },
+      include: CamposAuxiliares,
+    });
+  }
+  
 }

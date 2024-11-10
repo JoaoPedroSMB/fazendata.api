@@ -23,10 +23,10 @@ export class GadoController {
     return this.gadoService.vacinarGado(vacinarGadoDto);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.gadoService.findOne(+id);
-  // }
+  @Get(':id')
+  async findByIdGado(@Param('id') id: string) {
+    return this.gadoService.BuscarGadoPorId(+id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateGadoDto: UpdateGadoDto) {
