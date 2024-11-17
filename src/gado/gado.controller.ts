@@ -18,8 +18,8 @@ export class GadoController {
     return this.gadoService.BuscarAnimalPorFazenda(id);
   }
 
-  @Post('vacinar/')
-  async crete(@Body() vacinarGadoDto: VacinarGadoDto) {
+  @Post('vacinar')
+  async vacinar(@Body() vacinarGadoDto: VacinarGadoDto) {
     return this.gadoService.vacinarGado(vacinarGadoDto);
   }
 

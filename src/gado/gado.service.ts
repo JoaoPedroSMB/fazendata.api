@@ -189,13 +189,13 @@ export class GadoService {
         IdTipoGado: true,
       },
     });
-  
+
     if (!gado) {
       throw new BadRequestException(`Gado com ID ${gadoId} não encontrado.`);
     }
-  
+
     let CamposAuxiliares: any = {};
-  
+
     switch (gado.IdTipoGado) {
       case 1: // Gado Leiteiro
         CamposAuxiliares = {
@@ -206,7 +206,7 @@ export class GadoService {
           },
         };
         break;
-  
+
       case 2: // Gado de Corte
         CamposAuxiliares = {
           GadoMacho: {
@@ -216,7 +216,7 @@ export class GadoService {
           },
         };
         break;
-  
+
       case 3: // Gado Reprodutor
         CamposAuxiliares = {
           GadoMacho: {
@@ -226,11 +226,11 @@ export class GadoService {
           },
         };
         break;
-  
+
       default:
         throw new BadRequestException('Tipo de gado inválido.');
     }
-  
+
     return this.prisma.gado.findUnique({
       where: {
         IdGado: gadoId,
@@ -238,5 +238,4 @@ export class GadoService {
       include: CamposAuxiliares,
     });
   }
-  
 }
