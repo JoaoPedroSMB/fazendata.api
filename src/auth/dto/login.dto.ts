@@ -10,4 +10,6 @@ export class LoginDto {
 }
 export class LoginResponseDto {
   access_token: string;
+  nome: string;
+  IdPessoa;
 }

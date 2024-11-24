@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../shared/prisma/prisma.service';
 import { CreateGadoDto } from './dto/create-gado.dto';
+import { UpdateGadoDto } from './dto/update-gado.dto';
 
 @Injectable()
 export class GadoService {
@@ -142,12 +143,173 @@ export class GadoService {
 
     return gado;
   }
+  async update(id: number | string, updateGadoDto: UpdateGadoDto) {
+    const {
+      IdTipoGado,
+      IdSexo,
+      ultimaInseminacao,
+      quantidadePartos,
+      producaoLeiteDiariaEmLitros,
+      dataAbate,
+      idadePrevistaAbate,
+      ganhoDePesoMensal,
+      volumeSemenDisponivel,
+      motilidade,
+      concentracao,
+      IdStatusPrenhez,
+      ...gadoData
+    } = updateGadoDto;
+
+    const numericId = Number(id);
+    if (isNaN(numericId)) {
+      throw new BadRequestException('ID deve ser um número válido.');
+    }
+
+    console.log('ID recebido para atualização:', numericId);
+
+    const exitegado = await this.prisma.gado.findUnique({
+      where: { IdGado: numericId },
+    });
+    if (!exitegado) {
+      throw new BadRequestException(`Gado com ID ${numericId} não encontrado.`);
+    }
+
+    const updatedGado = await this.prisma.gado.update({
+      where: { IdGado: numericId },
+      data: {
+        ...gadoData,
+        IdTipoGado,
+        IdSexo,
+      },
+    });
+
+    if (IdTipoGado === 1) {
+      // Gado leiteiro
+      if (IdSexo !== 2) {
+        throw new BadRequestException('Gado Leiteiro deve ser feminino');
+      }
+
+      if (IdStatusPrenhez) {
+        const statusPrenhez = await this.prisma.statusPrenhez.findUnique({
+          where: { IdStatusPrenhez },
+        });
+        if (!statusPrenhez) {
+          throw new BadRequestException(
+            `Status Prenhez com ID ${IdStatusPrenhez} não existe.`,
+          );
+        }
+        await this.prisma.gadoFemea.update({
+          where: { IdGadoFemea: numericId },
+          data: { IdStatusPrenhez },
+        });
+      }
+
+      await this.prisma.gadoLeiteiro.update({
+        where: { IdGadoFemea: numericId },
+        data: {
+          UltimaInseminacao: ultimaInseminacao,
+          QuantidadePartos: quantidadePartos,
+          ProducaoLeiteDiariaEmLitros: producaoLeiteDiariaEmLitros,
+        },
+      });
+    } else if (IdTipoGado === 2) {
+      // Gado de corte
+      if (IdSexo !== 1) {
+        throw new BadRequestException('Gado de Corte deve ser masculino');
+      }
+
+      await this.prisma.gadoCorte.update({
+        where: { IdGadoMacho: numericId },
+        data: {
+          DataAbate: dataAbate,
+          IdadePrevistaAbate: idadePrevistaAbate,
+          GanhoDePesoMensal: ganhoDePesoMensal,
+        },
+      });
+    } else if (IdTipoGado === 3) {
+      // Gado reprodutor
+      if (IdSexo !== 1) {
+        throw new BadRequestException('Gado Reprodutor deve ser masculino');
+      }
+
+      await this.prisma.gadoReprodutor.update({
+        where: { IdGadoMacho: numericId },
+        data: {
+          VolumeSemenDisponivel: volumeSemenDisponivel,
+          Motilidade: motilidade,
+          Concentracao: concentracao,
+        },
+      });
+    } else {
+      throw new BadRequestException('Tipo de gado inválido.');
+    }
+
+    return updatedGado;
+  }
 
   async BuscarAnimalPorFazenda(fazendaId: number) {
     return this.prisma.gado.findMany({
       where: {
         IdFazenda: fazendaId,
       },
+    });
+  }
+  async BuscarGadoPorId(gadoId: number) {
+    const gado = await this.prisma.gado.findUnique({
+      where: {
+        IdGado: gadoId,
+      },
+      select: {
+        IdTipoGado: true,
+      },
+    });
+
+    if (!gado) {
+      throw new BadRequestException(`Gado com ID ${gadoId} não encontrado.`);
+    }
+
+    let includeAuxiliar: any = {};
+
+    switch (gado.IdTipoGado) {
+      case 1:
+        includeAuxiliar = {
+          GadoFemea: {
+            include: {
+              GadoLeiteiro: true,
+            },
+          },
+        };
+        break;
+
+      case 2:
+        includeAuxiliar = {
+          GadoMacho: {
+            include: {
+              GadoCorte: true,
+            },
+          },
+        };
+        break;
+
+      case 3:
+        includeAuxiliar = {
+          GadoMacho: {
+            include: {
+              GadoReprodutor: true,
+            },
+          },
+        };
+        break;
+
+      default:
+        throw new BadRequestException('Tipo de gado inválido.');
+    }
+
+    return this.prisma.gado.findUnique({
+      where: {
+        IdGado: gadoId,
+      },
+      include: includeAuxiliar,
     });
   }
 }

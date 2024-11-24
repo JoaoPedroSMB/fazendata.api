@@ -19,19 +19,25 @@ export class AuthService {
         email: true,
         password: true,
         IdTipoUsuario: true,
+        Pessoa: {
+          select: {
+            Nome: true,
+          },
+        },
       },
     });
-    if (usuario && await bcrypt.compare(password, usuario.password)) {
+    if (usuario && (await bcrypt.compare(password, usuario.password))) {
       const { password, ...result } = usuario;
       return result;
     }
     return null;
   }
-  
 
   async login(usuario: any): Promise<LoginResponseDto> {
     const payload = { email: usuario.email, sub: usuario.IdPessoa };
     return {
+      IdPessoa: usuario.IdPessoa,
+      nome: usuario.Pessoa.Nome,
       access_token: this.jwtService.sign(payload),
     };
   }
