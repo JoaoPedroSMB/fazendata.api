@@ -9,7 +9,7 @@ export class LoginDto {
   password: string;
 }
 export class LoginResponseDto {
+  IdPessoa: number;
+  Nome: string;
   access_token: string;
-  nome: string;
-  IdPessoa;
 }

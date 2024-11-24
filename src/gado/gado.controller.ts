@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateGadoDto } from './dto/create-gado.dto';
-import { GadoService } from './gado.service';
 import { UpdateGadoDto } from './dto/update-gado.dto';
+import { VacinarGadoDto } from './dto/vacinar-gado.dto';
+import { GadoService } from './gado.service';
 
 @Controller('gado')
 export class GadoController {
@@ -30,10 +31,15 @@ export class GadoController {
     return this.gadoService.BuscarGadoPorId(id);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.gadoService.findOne(+id);
-  // }
+  @Post('vacinar')
+  async vacinar(@Body() vacinarGadoDto: VacinarGadoDto) {
+    return this.gadoService.vacinarGado(vacinarGadoDto);
+  }
+
+  @Get(':id')
+  async findByIdGado(@Param('id') id: string) {
+    return this.gadoService.BuscarGadoPorId(+id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateGadoDto: UpdateGadoDto) {

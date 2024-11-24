@@ -35,9 +35,17 @@ export class AuthService {
 
   async login(usuario: any): Promise<LoginResponseDto> {
     const payload = { email: usuario.email, sub: usuario.IdPessoa };
+    const IdPessoa = usuario.IdPessoa;
+    const pessoa = await this.prisma.pessoa.findUnique({
+      where: { IdPessoa },
+      select: {
+        IdPessoa: true,
+        Nome: true,
+      },
+    });
     return {
-      IdPessoa: usuario.IdPessoa,
-      nome: usuario.Pessoa.Nome,
+      Nome: pessoa.Nome,
+      IdPessoa: pessoa.IdPessoa,
       access_token: this.jwtService.sign(payload),
     };
   }

@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../shared/prisma/prisma.service';
 import { CreateGadoDto } from './dto/create-gado.dto';
 import { UpdateGadoDto } from './dto/update-gado.dto';
+import { VacinarGadoDto } from './dto/vacinar-gado.dto';
 
 @Injectable()
 export class GadoService {
@@ -73,7 +74,7 @@ export class GadoService {
     switch (IdTipoGado) {
       case 1: // Gado leiteiro
         if (IdSexo !== 2) {
-          throw new BadRequestException('Gado Leiteiro deve ser feminino');
+          throw new BadRequestException('Gado Leiteiro deve ser fêmea');
         }
         const StatusPrenhez = await this.prisma.statusPrenhez.findUnique({
           where: { IdStatusPrenhez: createGadoDto.IdStatusPrenhez },
@@ -254,6 +255,35 @@ export class GadoService {
       },
     });
   }
+
+  async vacinarGado(vacinarGadoDto: VacinarGadoDto) {
+    const { IdGado, IdVacina, DataAplicacao, DataProxima } = vacinarGadoDto;
+
+    const vacina = await this.prisma.vacinas.findUnique({
+      where: { IdVacina },
+    });
+
+    if (!vacina) {
+      throw new BadRequestException(`Vacina com ID ${IdVacina} não existe.`);
+    }
+
+    const gado = await this.prisma.gado.findUnique({
+      where: { IdGado },
+    });
+
+    if (!gado) {
+      throw new BadRequestException(`Gado com ID ${IdGado} não existe.`);
+    }
+
+    return this.prisma.animalVacina.create({
+      data: {
+        IdGado: gado.IdGado,
+        IdVacina: vacina.IdVacina,
+        DataAplicacao,
+        DataProxima,
+      },
+    });
+  }
   async BuscarGadoPorId(gadoId: number) {
     const gado = await this.prisma.gado.findUnique({
       where: {
@@ -271,7 +301,7 @@ export class GadoService {
     let includeAuxiliar: any = {};
 
     switch (gado.IdTipoGado) {
-      case 1:
+      case 1: // Gado Leiteiro
         includeAuxiliar = {
           GadoFemea: {
             include: {
@@ -281,7 +311,7 @@ export class GadoService {
         };
         break;
 
-      case 2:
+      case 2: // Gado de Corte
         includeAuxiliar = {
           GadoMacho: {
             include: {
@@ -291,7 +321,7 @@ export class GadoService {
         };
         break;
 
-      case 3:
+      case 3: // Gado Reprod
         includeAuxiliar = {
           GadoMacho: {
             include: {

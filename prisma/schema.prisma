@@ -124,7 +124,7 @@ model TipoLogradouro {
 
 model UnidadeFederativa {
   UF         String @id @db.Char(2)
-  NomeEstado String @db.VarChar(18)
+  NomeEstado String @db.VarChar(20)
 
   Endereco Endereco[]
 }
@@ -153,8 +153,9 @@ model TipoUsuario {
   Usuario Usuario[]
 }
 
-model Vacinas {
+model Vacina {
   IdVacina  Int    @id @default(autoincrement())
+  Nome      String @db.VarChar(50)
   Descricao String @db.VarChar(50)
 
   AnimalVacina AnimalVacina[]
@@ -163,8 +164,10 @@ model Vacinas {
 model Fazenda {
   IdFazenda     Int             @id @default(autoincrement())
   IdEndereco    Int
+  IdDono        Int
   Nome          String          @db.VarChar(40)
   Endereco      Endereco        @relation(fields: [IdEndereco], references: [IdEndereco])
+  Dono          Pessoa          @relation(fields: [IdDono], references: [IdPessoa])
   Gado          Gado[]
   FazendaPessoa FazendaPessoa[]
 }
@@ -202,8 +205,8 @@ model AnimalVacina {
   DataAplicacao DateTime
   DataProxima   DateTime?
 
-  Gado    Gado    @relation(fields: [IdGado], references: [IdGado])
-  Vacinas Vacinas @relation(fields: [IdVacina], references: [IdVacina])
+  Gado    Gado   @relation(fields: [IdGado], references: [IdGado])
+  Vacinas Vacina @relation(fields: [IdVacina], references: [IdVacina])
 
   @@id([IdGado, IdVacina])
 }
@@ -229,6 +232,8 @@ model Pessoa {
   FazendaPessoa FazendaPessoa[]
 
   Usuario Usuario?
+
+  Fazenda Fazenda[]
 }
 
 model Usuario {
