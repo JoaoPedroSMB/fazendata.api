@@ -41,10 +41,10 @@ export class GadoController {
     return this.gadoService.BuscarGadoPorId(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateGadoDto: UpdateGadoDto) {
-  //   return this.gadoService.update(+id, updateGadoDto);
-  // }
+  @Get('vacina/:id')
+  async BuscarVacinasPorGado(@Param('id') id: string) {
+    return this.gadoService.BuscarVacinasPorGado(+id);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

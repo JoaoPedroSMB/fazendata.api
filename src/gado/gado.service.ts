@@ -259,7 +259,7 @@ export class GadoService {
   async vacinarGado(vacinarGadoDto: VacinarGadoDto) {
     const { IdGado, IdVacina, DataAplicacao, DataProxima } = vacinarGadoDto;
 
-    const vacina = await this.prisma.vacinas.findUnique({
+    const vacina = await this.prisma.vacina.findUnique({
       where: { IdVacina },
     });
 
@@ -340,6 +340,13 @@ export class GadoService {
         IdGado: gadoId,
       },
       include: includeAuxiliar,
+    });
+  }
+  async BuscarVacinasPorGado(gadoId: number) {
+    return this.prisma.animalVacina.findMany({
+      where: {
+        IdGado: gadoId,
+      },
     });
   }
 }
