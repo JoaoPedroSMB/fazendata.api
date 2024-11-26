@@ -15,24 +15,4 @@ export class VacinaController {
   findVacinas() {
     return this.vacinaService.findVacinas();
   }
-
-  // @Get()
-  // findAll() {
-  //   return this.vacinaService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.vacinaService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateVacinaDto: UpdateVacinaDto) {
-  //   return this.vacinaService.update(+id, updateVacinaDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.vacinaService.remove(+id);
-  // }
 }

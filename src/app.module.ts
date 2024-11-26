@@ -10,6 +10,7 @@ import { PrismaModule } from './shared/prisma/prisma.module';
 import { PrismaService } from './shared/prisma/prisma.service';
 import { VacinaModule } from './vacina/vacina.module';
 import { EnderecoModule } from './endereco/endereco.module';
+import { PessoaModule } from './pessoa/pessoa.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { EnderecoModule } from './endereco/endereco.module';
     FazendaModule,
     VacinaModule,
     EnderecoModule,
+    PessoaModule,
   ],
   providers: [
     {

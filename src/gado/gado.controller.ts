@@ -27,14 +27,4 @@ export class GadoController {
   async findByIdGado(@Param('id') id: string) {
     return this.gadoService.BuscarGadoPorId(+id);
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateGadoDto: UpdateGadoDto) {
-  //   return this.gadoService.update(+id, updateGadoDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.gadoService.remove(+id);
-  // }
 }

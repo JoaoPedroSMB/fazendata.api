@@ -86,12 +86,4 @@ export class FazendaService {
       },
     });
   }
-
-  // update(id: number, updateFazendaDto: UpdateFazendaDto) {
-  //   return `This action updates a #${id} fazenda`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} fazenda`;
-  // }
 }

@@ -16,19 +16,4 @@ export class FazendaController {
     const id = parseInt(pessoaId, 10);
     return this.fazendaService.BuscarTodasFazendas(id);
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.fazendaService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateFazendaDto: UpdateFazendaDto) {
-  //   return this.fazendaService.update(+id, updateFazendaDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.fazendaService.remove(+id);
-  // }
 }

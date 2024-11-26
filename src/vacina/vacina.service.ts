@@ -21,20 +21,4 @@ export class VacinaService {
   async findVacinas() {
     return this.prisma.vacina.findMany();
   }
-
-  // findAll() {
-  //   return `This action returns all vacina`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} vacina`;
-  // }
-
-  // update(id: number, updateVacinaDto: UpdateVacinaDto) {
-  //   return `This action updates a #${id} vacina`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} vacina`;
-  // }
 }
