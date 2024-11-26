@@ -253,6 +253,11 @@ export class GadoService {
       where: {
         IdFazenda: fazendaId,
       },
+      include: {
+        Sexo: true,
+        TipoGado: true,
+        Raca: true,
+      },
     });
   }
 
@@ -306,6 +311,7 @@ export class GadoService {
           GadoFemea: {
             include: {
               GadoLeiteiro: true,
+              StatusPrenhez: true,
             },
           },
         };
@@ -339,7 +345,7 @@ export class GadoService {
       where: {
         IdGado: gadoId,
       },
-      include: includeAuxiliar,
+      include: { Sexo: true, TipoGado: true, Raca: true, ...includeAuxiliar },
     });
   }
   async BuscarVacinasPorGado(gadoId: number) {

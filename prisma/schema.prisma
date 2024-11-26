@@ -73,10 +73,10 @@ model GadoReprodutor {
 }
 
 model GadoLeiteiro {
-  IdGadoFemea                 Int      @id
-  UltimaInseminacao           DateTime
-  QuantidadePartos            Int
-  ProducaoLeiteDiariaEmLitros Decimal  @db.Decimal(4, 2)
+  IdGadoFemea                 Int       @id
+  UltimaInseminacao           DateTime?
+  QuantidadePartos            Int?
+  ProducaoLeiteDiariaEmLitros Decimal?  @db.Decimal(4, 2)
 
   GadoFemea GadoFemea @relation(fields: [IdGadoFemea], references: [IdGadoFemea])
 }
