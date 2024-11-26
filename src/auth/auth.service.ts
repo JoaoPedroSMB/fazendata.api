@@ -19,11 +19,15 @@ export class AuthService {
         email: true,
         password: true,
         IdTipoUsuario: true,
+        Pessoa: {
+          select: {
+            Nome: true,
+          },
+        },
       },
     });
     if (usuario && (await bcrypt.compare(password, usuario.password))) {
-      delete usuario.password;
-      const result = usuario;
+      const { password, ...result } = usuario;
       return result;
     }
     return null;
