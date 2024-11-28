@@ -198,7 +198,7 @@ model AnimalVacina {
   Gado    Gado   @relation(fields: [IdGado], references: [IdGado])
   Vacinas Vacina @relation(fields: [IdVacina], references: [IdVacina])
 
-  @@id([IdGado, IdVacina])
+  @@id([IdGado, IdVacina, DataAplicacao])
 }
 
 model FazendaPessoa {
