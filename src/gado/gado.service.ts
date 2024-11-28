@@ -353,6 +353,9 @@ export class GadoService {
       where: {
         IdGado: gadoId,
       },
+      include: {
+        Vacinas: true,
+      },
     });
   }
 }

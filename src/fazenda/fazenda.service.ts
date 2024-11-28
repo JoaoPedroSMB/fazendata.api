@@ -83,6 +83,9 @@ export class FazendaService {
       },
       include: {
         Dono: true,
+        Endereco: {
+          include: { TipoLogradouro: true },
+        },
       },
     });
   }
