@@ -80,9 +80,8 @@ Para usar o Fazendata, você precisará de:
    ```bash
    npm start
     ```
-    ```
+    
     Obs: O backend (fazendata.api) tem que estar rodando
-   ```
 ---
 
 ## 📚 Uso
