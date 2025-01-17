@@ -1,87 +1,103 @@
-[![wakatime](https://wakatime.com/badge/github/taigakilla/fazendata.api.svg)](https://wakatime.com/badge/github/taigakilla/fazendata.api)
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Fazendata
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+**Fazendata** é uma solução simples e eficiente que utiliza tecnologia NFC para facilitar o gerenciamento de informações do gado. Com ele, é possível ler e gravar dados diretamente em tags NFC, otimizando o controle e o acompanhamento dos animais na sua fazenda.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 Índice
 
-## Description
+- [Introdução](#introdução)  
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)  
+- [Requisitos](#requisitos)  
+- [Instalação](#instalação)  
+- [Uso](#uso)  
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 🐄 Introdução
 
-```bash
-$ npm install
-```
+O **Fazendata** foi projetado para atender produtores rurais que buscam uma forma prática de organizar e acessar informações sobre o rebanho. Ele utiliza tags NFC como base para armazenar dados essenciais, como:
+- Idade
+- Peso
+- Data da última vacinação
+- Histórico de saúde
+- entre outros
 
-## Compile and run the project
+Essa tecnologia elimina a necessidade de registros manuais ou papéis, proporcionando mais segurança e agilidade no gerenciamento dos dados.
 
-```bash
-# development
-$ npm run start
+---
 
-# watch mode
-$ npm run start:dev
+## ✨ Funcionalidades
 
-# production mode
-$ npm run start:prod
-```
+- **Leitura de Tags NFC**: Obtenha informações sobre o animal ao aproximar o dispositivo NFC.
+- **Gravação de Dados**: Grave informações do gado diretamente em uma tag NFC e no banco de dados.
+- **Armazenamento em Banco de Dados**: Os dados também são gravados em um banco de dados, garantindo backup e acessibilidade.
+- **Interface Amigável**: Aplicativo com interface simples e intuitiva.
+- **Suporte a Atualizações**: Atualize as informações de uma tag existente com novos dados.
+- **Segurança**: Garante que os dados gravados estejam protegidos contra sobrescrições não autorizadas.
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## 🛠️ Tecnologias Utilizadas
 
-# e2e tests
-$ npm run test:e2e
+O Fazendata foi desenvolvido utilizando as seguintes tecnologias principais:
 
-# test coverage
-$ npm run test:cov
-```
+- **NestJS**: Framework backend usado para criar uma API robusta e escalável.
+- **Supabase**: Banco de dados e autenticação em tempo real para armazenar e gerenciar as informações do gado.
+- **React Native**: Framework frontend para criar um aplicativo móvel multiplataforma (Android e iOS).
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🖥️ Requisitos
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Para usar o Fazendata, você precisará de:
 
-## Support
+1. Um dispositivo com suporte a NFC (smartphone ou tablet).
+2. Sistema operacional: 
+   - Android 7.0 ou superior.
+3. Tags NFC compatíveis.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## 🚀 Instalação
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+1. **Clone os repositórios:**
+   ```bash
+   git clone https://github.com/taigakilla/fazendata.git
+   cd fazendata
+   ```
 
-## License
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+3. **Configure o .env:**
+   ```bash
+   Crie um arquivo .env e Usar o .envExemple para configurar as chaves do .env
+    ```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+4. **Inicie o aplicativo:**
+   ```bash
+   npm start
+    ```
+    ```
+    Obs: O backend (fazendata.api) tem que estar rodando
+   ```
+---
+
+## 📚 Uso
+
+1. Abra o aplicativo Fazendata no seu dispositivo.
+2. Escolha entre as opções **Ler Tag** ou **Gravar Dados**.
+3. Para gravação:
+   - Na página de cadastro
+   - Escolha o tipo de gado
+   - Preencha os campos necessários (como peso, idade, etc.).
+   - Encoste o dispositivo na tag NFC para gravar os dados.
+4. Para leitura:
+   - Na tela de inicio
+   - Clique em "Ler tag NFC"
+   - Aproximar a tag NFC do dispositivo.
+   - Visualize as informações armazenadas diretamente no aplicativo.
+
+---
